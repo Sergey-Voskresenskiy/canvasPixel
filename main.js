@@ -8,6 +8,28 @@ const ctx = canvas.getContext("2d");
 canvas.width = 800;
 canvas.height = 450;
 
+const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+gradient.addColorStop(0.2, 'pink')
+gradient.addColorStop(0.3, 'red')
+gradient.addColorStop(0.4, 'orange')
+gradient.addColorStop(0.5, 'yellow')
+gradient.addColorStop(0.6, 'green')
+gradient.addColorStop(0.7, 'turquoise')
+gradient.addColorStop(0.8, 'violet')
+
+const letters = ['∝', '⊹', '∀', '∘', '∙']
+
+// let switcher = 1;
+// let counter = 0;
+
+// setInterval(function() {
+//   counter++;
+//   if (counter % 12 === 0) {
+//     switcher *= -1;
+//   }
+// }, 300)
+
+
 const image = new Image();
 image.crossOrigin = "Anonymous";
 image.src = imageSrc;
@@ -62,6 +84,8 @@ image.addEventListener("load", function () {
       this.position1 = Math.floor(this.y);
       this.position2 = Math.floor(this.x);
       this.angle = 0;
+      this.letter = letters[Math.floor(Math.random() * letters.length)]
+      this.random = Math.random()
     }
 
     update() {
@@ -75,6 +99,13 @@ image.addEventListener("load", function () {
       let movement = (2.5 - this.speed) + this.velocity
       
       this.angle+=this.speed/10;
+      this.size = this.speed * 1.5;
+
+      // if(switcher === 1) {
+      //   ctx.globalCompositeOperation = 'luminosity';
+      // } else {
+      //   ctx.globalCompositeOperation = 'soft-light';
+      // }
 
       this.y += movement + Math.sin(this.angle) * 7;
       this.x += movement + Math.cos(this.angle) * 1;
@@ -93,8 +124,16 @@ image.addEventListener("load", function () {
       ctx.beginPath();
       if((mappedImages[this.position1]) && (mappedImages[this.position1][this.position2])) {
         ctx.fillStyle = mappedImages[this.position1][this.position2][1];
+        // ctx.strokeStyle = mappedImages[this.position1][this.position2][1];
       }
+      // ctx.fillStyle = gradient
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      // ctx.strokeRect(this.x, this.y, this.size, this.size * 1.5);
+      // ctx.font = '20px Arial';
+      // this.random < 0.5
+      //   ? ctx.fillText(this.letter, this.x, this.y)
+      //   : ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
       ctx.fill();
     }
   }
